@@ -7,12 +7,25 @@
 #include <string>
 #include <list>
 
+//' Reads headers and sample ID list from SAV file.
+//' @param path SAV file path.
+//' @return A list of headers and sample IDs.
+//' @export
 // [[Rcpp::export]]
 bool read_sav_header(const std::string& file_path)
 {
   return false;
 }
 
+
+//' Reads the specified region from a SAV file.
+//' @param path SAV file path.
+//' @param chrom Chromosome to query.
+//' @param beg Start position (Default: 0).
+//' @param end End position (Default: 2147483647).
+//' @param fmt Whether to read data as genotypes, allele counts, haplotype dosages or dosages (GT, AC, HDS, DS, Default: GT).
+//' @return A data frame of site info and a matrix of genotype data.
+//' @export
 // [[Rcpp::export]]
 Rcpp::List read_sav_region(const std::string& file_path, const std::string& chrom, std::int32_t beg, std::int32_t end, const std::string& fmt_str = "GT")
 { 
