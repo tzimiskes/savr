@@ -13,7 +13,7 @@ find_package(savvy REQUIRED)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_library(savr SHARED src/savr.cpp)
+add_library(savr SHARED src/savr.cpp src/RcppExports.cpp)
 include_directories(savr ${R_INCLUDE_DIR} ${Rcpp_INCLUDE_DIR})
 target_link_libraries(savr ${R_LIBRARIES} savvy)
 

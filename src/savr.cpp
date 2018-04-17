@@ -7,13 +7,14 @@
 #include <string>
 #include <list>
 
+// [[Rcpp::export]]
 bool read_sav_header(const std::string& file_path)
 {
   return false;
 }
 
 // [[Rcpp::export]]
-Rcpp::List read_sav_region(const std::string& file_path, const std::string& chrom, std::int32_t beg, std::int32_t end, const std::string& fmt_str)
+Rcpp::List read_sav_region(const std::string& file_path, const std::string& chrom, std::int32_t beg, std::int32_t end, const std::string& fmt_str = "GT")
 { 
   savvy::fmt fmt = savvy::fmt::allele;
   if (fmt_str == "AC")
