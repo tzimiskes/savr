@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // read_sav_header
-bool read_sav_header(const std::string& file_path);
+Rcpp::List read_sav_header(const std::string& file_path);
 RcppExport SEXP _savr_read_sav_header(SEXP file_pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
