@@ -21,8 +21,8 @@ bool read_sav_header(const std::string& file_path)
 //' Reads the specified region from a SAV file.
 //' @param path SAV file path.
 //' @param chrom Chromosome to query.
-//' @param beg Start position (Default: 0).
-//' @param end End position (Default: 2147483647).
+//' @param beg Start position.
+//' @param end End position.
 //' @param fmt Whether to read data as genotypes, allele counts, haplotype dosages or dosages (GT, AC, HDS, DS, Default: GT).
 //' @return A data frame of site info and a matrix of genotype data.
 //' @export

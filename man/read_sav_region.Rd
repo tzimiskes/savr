@@ -9,9 +9,9 @@ read_sav_region(file_path, chrom, beg, end, fmt_str = "GT")
 \arguments{
 \item{chrom}{Chromosome to query.}
 
-\item{beg}{Start position (Default: 0).}
+\item{beg}{Start position.}
 
-\item{end}{End position (Default: 2147483647).}
+\item{end}{End position.}
 
 \item{path}{SAV file path.}
 
