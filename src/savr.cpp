@@ -8,6 +8,68 @@
 #include <list>
 
 
+//' Get statistics about SAV file.
+//' @param path SAV file path.
+//' @return A data frame of statistics about file.
+//' @export
+// [[Rcpp::export]]
+Rcpp::List stat_sav_file(const std::string& file_path)
+{
+  savvy::s1r::reader index_file(file_path + ".s1r");
+
+  if (!index_file.good())
+  {
+    Rcpp::stop("Could not open index file (" + file_path + ")");
+  }
+
+  int nrows = index_file.tree_names().size();
+  std::vector<std::string> chromosomes(nrows);
+  std::vector<std::int32_t> variant_counts(nrows);
+  std::vector<std::int32_t> min_positions(nrows);
+  std::vector<std::int32_t> max_positions(nrows);
+  
+  std::vector<std::string> column_names(4);
+  column_names[0] = "chromosome"; 
+  column_names[1] = "variant_count";
+  column_names[2] = "min_position";
+  column_names[3] = "max_position";
+
+  std::size_t i = 0;
+  for (auto it = index_file.trees_begin(); it != index_file.trees_end(); ++it,++i)
+  {
+    // chromosome 
+    chromosomes[i] = it->name();
+
+    // marker count
+    std::uint64_t cnt = 0;
+    auto q = it->create_query(0, std::numeric_limits<std::uint64_t>::max());
+    for (auto e = q.begin(); e != q.end(); ++e)
+    {
+      cnt += std::uint32_t(0x000000000000FFFF & e->value()) + 1;
+    }
+    variant_counts[i] = cnt;
+
+    // min pos
+    min_positions[i] = 0;
+
+    // max pos
+    max_positions[i] = 0;
+  }
+  
+  Rcpp::List ret(4);
+  ret[0] = std::move(chromosomes);
+  ret[1] = std::move(variant_counts);
+  ret[2] = std::move(min_positions);
+  ret[3] = std::move(max_positions);
+
+  ret.attr("names") = column_names;
+  ret.attr("class") = "data.frame";
+  ret.attr("row.names") = Rcpp::IntegerVector::create(NA_INTEGER, -nrows);
+  
+  return ret;
+}
+
+
 //' Reads headers and sample ID list from SAV file.
 //' @param path SAV file path.
 //' @return A list of headers and sample IDs.
@@ -16,6 +78,10 @@
 Rcpp::List read_sav_header(const std::string& file_path)
 {
   savvy::sav::reader r(file_path, savvy::fmt::genotype);
+  if (!r.good())
+  { 
+    Rcpp::stop("Could not open SAV file (" + file_path + ")");
+  }
   
   std::vector<std::string> header_names(r.headers().size());
   std::vector<std::string> header_values(r.headers().size());
@@ -59,9 +125,18 @@ Rcpp::List read_sav_region(const std::string& file_path, const std::string& chro
     
   std::list<savvy::variant<savvy::compressed_vector<float>>> tmp_vars(1);
   savvy::sav::indexed_reader file(file_path, {chrom, static_cast<std::uint64_t>(beg), static_cast<std::uint64_t>(end)}, fmt);
-  
+  if (!file.good())
+  { 
+    Rcpp::stop("Could not open indexed SAV file (" + file_path + ")");
+  }
+
   while (file >> tmp_vars.back()) 
     tmp_vars.emplace_back();
+
+  if (file.bad())
+  { 
+    Rcpp::stop("I/O error (" + file_path + ")");
+  }
 
   tmp_vars.pop_back();
   std::size_t nrows = tmp_vars.size();
