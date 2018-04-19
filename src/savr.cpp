@@ -49,11 +49,15 @@ Rcpp::List stat_sav_file(const std::string& file_path)
     }
     variant_counts[i] = cnt;
 
+    std::uint32_t min;
+    std::uint32_t max;
+    std::tie(min, max) = it->range();
+    
     // min pos
-    min_positions[i] = 0;
+    min_positions[i] = min;
 
     // max pos
-    max_positions[i] = 0;
+    max_positions[i] = max;
   }
   
   Rcpp::List ret(4);
