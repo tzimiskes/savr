@@ -22,7 +22,7 @@ read_sav_header <- function(file_path) {
 #' @param chrom Chromosome to query.
 #' @param beg Start position.
 #' @param end End position.
-#' @param fmt Whether to read data as genotypes, allele counts, haplotype dosages or dosages (GT, AC, HDS, DS, Default: GT).
+#' @param fmt Whether to read data as genotypes, allele counts, haplotype dosages, dosages or genotype probabilities (GT, AC, HDS, DS, GP, Default: GT).
 #' @return A data frame of site info and a matrix of genotype data.
 #' @export
 read_sav_region <- function(file_path, chrom, beg, end, fmt_str = "GT") {

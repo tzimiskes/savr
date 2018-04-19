@@ -15,7 +15,7 @@ read_sav_region(file_path, chrom, beg, end, fmt_str = "GT")
 
 \item{path}{SAV file path.}
 
-\item{fmt}{Whether to read data as genotypes, allele counts, haplotype dosages or dosages (GT, AC, HDS, DS, Default: GT).}
+\item{fmt}{Whether to read data as genotypes, allele counts, haplotype dosages, dosages or genotype probabilities (GT, AC, HDS, DS, GP, Default: GT).}
 }
 \value{
 A data frame of site info and a matrix of genotype data.

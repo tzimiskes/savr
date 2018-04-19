@@ -81,7 +81,7 @@ Rcpp::List stat_sav_file(const std::string& file_path)
 // [[Rcpp::export]]
 Rcpp::List read_sav_header(const std::string& file_path)
 {
-  savvy::sav::reader r(file_path, savvy::fmt::genotype);
+  savvy::sav::reader r(file_path, savvy::fmt::gt);
   if (!r.good())
   { 
     Rcpp::stop("Could not open SAV file (" + file_path + ")");
@@ -113,19 +113,21 @@ Rcpp::List read_sav_header(const std::string& file_path)
 //' @param chrom Chromosome to query.
 //' @param beg Start position.
 //' @param end End position.
-//' @param fmt Whether to read data as genotypes, allele counts, haplotype dosages or dosages (GT, AC, HDS, DS, Default: GT).
+//' @param fmt Whether to read data as genotypes, allele counts, haplotype dosages, dosages or genotype probabilities (GT, AC, HDS, DS, GP, Default: GT).
 //' @return A data frame of site info and a matrix of genotype data.
 //' @export
 // [[Rcpp::export]]
 Rcpp::List read_sav_region(const std::string& file_path, const std::string& chrom, std::int32_t beg, std::int32_t end, const std::string& fmt_str = "GT")
 { 
-  savvy::fmt fmt = savvy::fmt::allele;
+  savvy::fmt fmt = savvy::fmt::gt;
   if (fmt_str == "AC")
-    fmt = savvy::fmt::genotype;
+    fmt = savvy::fmt::ac;
   else if (fmt_str == "HDS")
-    fmt = savvy::fmt::haplotype_dosage;
+    fmt = savvy::fmt::hds;
   else if (fmt_str == "DS")
-    fmt = savvy::fmt::dosage;
+    fmt = savvy::fmt::ds;
+  else if (fmt_str == "GP")
+    fmt = savvy::fmt::gp;
     
   std::list<savvy::variant<savvy::compressed_vector<float>>> tmp_vars(1);
   savvy::sav::indexed_reader file(file_path, {chrom, static_cast<std::uint64_t>(beg), static_cast<std::uint64_t>(end)}, fmt);
