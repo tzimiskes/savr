@@ -1,0 +1,17 @@
+set -e
+
+pip install --user cget
+
+#rm -rf _build
+cget install -DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC" --prefix _build statgen/savvy@4794f2bfbd3ddd77d69713f7024db1ae2a791979
+
+cmake -H. -B_build \
+    -DCMAKE_TOOLCHAIN_FILE=_build/cget/cget.cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=_install \
+    -DCMAKE_SHARED_LIBRARY_PREFIX_CXX=""
+
+cmake --build _build --target install --config Release
+
+cp _install/lib/savr.so src/ || (>&2 echo "Failed: savr.so -> src")
+cp _install/lib/savr.dylib src/savr.so || (>&2 echo "Failed: savr.dylib -> src")

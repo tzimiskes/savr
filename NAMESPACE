@@ -1,0 +1,3 @@
+useDynLib(savr)
+importFrom(Rcpp, evalCpp)
+exportPattern("^[A-z0-9_]+")
