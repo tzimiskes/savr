@@ -3,7 +3,7 @@ set -e
 pip install --user cget
 
 #rm -rf _build
-cget install -DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC" --prefix _build statgen/savvy@a41d1f03c77047544b6901552ba6df61fa14f322
+$(python -m site --user-base)/bin/cget install -DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC" --prefix _build statgen/savvy@a41d1f03c77047544b6901552ba6df61fa14f322
 
 cmake -H. -B_build \
     -DCMAKE_TOOLCHAIN_FILE=_build/cget/cget.cmake \
