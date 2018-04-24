@@ -146,7 +146,13 @@ Rcpp::List read_sav_region(const std::string& file_path, const std::string& chro
 
   tmp_vars.pop_back();
   std::size_t nrows = tmp_vars.size();
-  std::size_t ncols = file.samples().size() * (file.ploidy() ? file.ploidy() : 2);
+  std::size_t ncols;
+  if (fmt == savvy::fmt::gt || fmt == savvy::fmt::hds)  
+    ncols = file.samples().size() * (file.ploidy() ? file.ploidy() : 2);
+  else if (fmt == savvy::fmt::gp)
+    ncols = file.samples().size() * ((file.ploidy() ? file.ploidy() : 2) + 1);
+  else
+    ncols = file.samples().size();
 
   std::vector<std::string> chromosomes(nrows);
   std::vector<std::int32_t> positions(nrows);
@@ -170,6 +176,10 @@ Rcpp::List read_sav_region(const std::string& file_path, const std::string& chro
       info_columns[j][i] = it->prop(*jt);
     }
 
+    if (ncols != it->data().size())
+    { 
+      Rcpp::stop("Logic Error: variant vector size (" + std::to_string(it->data().size()) + ") does not match matrix row size (" + std::to_string(ncols) + ")");
+    }
     auto jt_end = it->data().end();
     for (auto jt = it->data().begin(); jt != jt_end; ++jt)
     {
