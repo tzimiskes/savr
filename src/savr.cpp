@@ -146,7 +146,7 @@ Rcpp::List read_sav_region(const std::string& file_path, const std::string& chro
 
   tmp_vars.pop_back();
   std::size_t nrows = tmp_vars.size();
-  std::size_t ncols = file.samples().size() * file.ploidy();
+  std::size_t ncols = file.samples().size() * (file.ploidy() ? file.ploidy() : 2);
 
   std::vector<std::string> chromosomes(nrows);
   std::vector<std::int32_t> positions(nrows);
