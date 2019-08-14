@@ -4,10 +4,7 @@ pip install --user cget
 
 #rm -rf _build
 
-CXX=$(which g++)
-CC=$(which gcc)
-
-$(which cget) install -DCGET_PREFIX=/net/sandbox/home/alexrix -DCMAKE_CXX_COMPILER=$CXX -DCMAKE_C_COMPILER=$CC -DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC" --prefix _build statgen/savvy@a41d1f03c77047544b6901552ba6df61fa14f322
+$(which cget) install -DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC" --prefix _build statgen/savvy@a41d1f03c77047544b6901552ba6df61fa14f322
 
 cmake -H. -B_build \
     -DCMAKE_CXX_COMPILER=$CXX \
