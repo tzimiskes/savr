@@ -4,9 +4,12 @@
 \alias{read_sav_region}
 \title{Reads the specified region from a SAV file.}
 \usage{
-read_sav_region(file_path, chrom, beg, end, fmt_str = "GT")
+read_sav_region(file_path, samples, chrom, beg, end, transpose = FALSE,
+  fmt_str = "GT")
 }
 \arguments{
+\item{samples}{Which samples to extract.}
+
 \item{chrom}{Chromosome to query.}
 
 \item{beg}{Start position.}
@@ -14,6 +17,8 @@ read_sav_region(file_path, chrom, beg, end, fmt_str = "GT")
 \item{end}{End position.}
 
 \item{path}{SAV file path.}
+
+\item{tranpose}{Whether or not to transpose the genotype data.}
 
 \item{fmt}{Whether to read data as genotypes, allele counts, haplotype dosages, dosages or genotype probabilities (GT, AC, HDS, DS, GP, Default: GT).}
 }

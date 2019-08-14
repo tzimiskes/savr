@@ -19,13 +19,15 @@ read_sav_header <- function(file_path) {
 
 #' Reads the specified region from a SAV file.
 #' @param path SAV file path.
+#' @param samples Which samples to extract.
 #' @param chrom Chromosome to query.
 #' @param beg Start position.
 #' @param end End position.
+#' @param tranpose Whether or not to transpose the genotype data.
 #' @param fmt Whether to read data as genotypes, allele counts, haplotype dosages, dosages or genotype probabilities (GT, AC, HDS, DS, GP, Default: GT).
 #' @return A data frame of site info and a matrix of genotype data.
 #' @export
-read_sav_region <- function(file_path, chrom, beg, end, fmt_str = "GT") {
-    .Call('_savr_read_sav_region', PACKAGE = 'savr', file_path, chrom, beg, end, fmt_str)
+read_sav_region <- function(file_path, samples, chrom, beg, end, transpose = FALSE, fmt_str = "GT") {
+    .Call('_savr_read_sav_region', PACKAGE = 'savr', file_path, samples, chrom, beg, end, transpose, fmt_str)
 }
 
