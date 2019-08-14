@@ -7,8 +7,6 @@ pip install --user cget
 $(which cget) install -DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC" --prefix _build statgen/savvy@a41d1f03c77047544b6901552ba6df61fa14f322
 
 cmake -H. -B_build \
-    -DCMAKE_CXX_COMPILER=$CXX \
-    -DCMAKE_C_COMPILER=$CC \
     -DCMAKE_TOOLCHAIN_FILE=_build/cget/cget.cmake \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=_install \
