@@ -178,14 +178,10 @@ Rcpp::List read_sav_region(const std::string& file_path, std::vector<std::string
   std::vector<std::string> alt_alleles(nrows);
 
   Rcpp::NumericMatrix geno_data;
-  if (transpose) {
-      Rcpp::Rcout << "r: " << ncols << " c: " << nrows << "\n";
+  if (transpose)
       geno_data = Rcpp::NumericMatrix(ncols, nrows);
-  }
-  else {
-      Rcpp::Rcout << "r: " << nrows << " c: " << ncols << "\n";
+  else
       geno_data = Rcpp::NumericMatrix(nrows, ncols);
-  }
 
   std::vector<std::vector<std::string>> info_columns(file.info_fields().size(), std::vector<std::string>(nrows));
 
