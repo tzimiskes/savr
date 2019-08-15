@@ -3,8 +3,7 @@ set -e
 pip install --user cget
 
 #rm -rf _build
-
-$(which cget) install -DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC" --prefix _build statgen/savvy@a41d1f03c77047544b6901552ba6df61fa14f322
+$(python -m site --user-base)/bin/cget install -DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC" --prefix _build statgen/savvy@a41d1f03c77047544b6901552ba6df61fa14f322
 
 cmake -H. -B_build \
     -DCMAKE_TOOLCHAIN_FILE=_build/cget/cget.cmake \
@@ -15,3 +14,4 @@ cmake -H. -B_build \
 cmake --build _build --target install --config Release
 
 cp _install/lib/savr.so src/ || (>&2 echo "Failed: savr.so -> src")
+cp _install/lib/savr.dylib src/savr.so || (>&2 echo "Failed: savr.dylib -> src")
